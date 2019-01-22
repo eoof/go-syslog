@@ -1,22 +1,33 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"log"
 
-	"gopkg.in/mcuadros/go-syslog.v2"
+	"github.com/eoof/go-syslog"
 )
 
 func main() {
+	udpAddr := flag.String("udp", "0.0.0.0:14514", "udp addr")
+	tcpAddr := flag.String("tcp", "0.0.0.0:14514", "tcp addr")
+	flag.Parse()
 	channel := make(syslog.LogPartsChannel)
 	handler := syslog.NewChannelHandler(channel)
 
 	server := syslog.NewServer()
 	server.SetFormat(syslog.RFC5424)
 	server.SetHandler(handler)
-	server.ListenUDP("0.0.0.0:514")
-	server.ListenTCP("0.0.0.0:514")
+	if err := server.ListenUDP(*udpAddr); err != nil {
+		log.Fatal(err)
+	}
+	if err := server.ListenTCP(*tcpAddr); err != nil {
+		log.Fatal(err)
+	}
 
-	server.Boot()
+	if err := server.Boot(); err != nil {
+		log.Fatal(err)
+	}
 
 	go func(channel syslog.LogPartsChannel) {
 		for logParts := range channel {
@@ -24,5 +35,7 @@ func main() {
 		}
 	}(channel)
 
+	fmt.Println("waiting")
 	server.Wait()
+	fmt.Println("exiting")
 }
