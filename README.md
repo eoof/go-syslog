@@ -1,3 +1,9 @@
+
+## Forked version 
+
+orginally from github.com/mcuadros/go-syslog
+
+
 go-syslog [![Build Status](https://travis-ci.org/mcuadros/go-syslog.svg?branch=master)](https://travis-ci.org/mcuadros/go-syslog) [![GoDoc](http://godoc.org/github.com/mcuadros/go-syslog?status.svg)](hhttps://godoc.org/gopkg.in/mcuadros/go-syslog.v2) [![GitHub release](https://img.shields.io/github/release/mcuadros/go-syslog.svg)](https://github.com/mcuadros/go-syslog/releases)
 ==============================
 
